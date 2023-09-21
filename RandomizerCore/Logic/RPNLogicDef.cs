@@ -104,7 +104,7 @@ namespace RandomizerCore.Logic
                 Log($"Unable to get infix logic for {Name}");
                 try
                 {
-                    Log($"Token list: {string.Join(" ", ToTokenSequence().Select(t => t is TermToken tt ? tt.Write() : t is OperatorToken ot ? ot.Symbol : ""))}");
+                    Log($"Token list: {string.Join(" ", ToTokenSequence().Select(t => t is TermToken tt ? tt.Write() : t is OperatorToken ot ? ot.Symbol : "").ToArray())}");
                 }
                 catch (Exception e)
                 {

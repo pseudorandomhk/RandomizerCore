@@ -8,5 +8,9 @@ namespace RandomizerCore.LogicItems.Templates
         {
             return new(Name);
         }
+
+        public virtual bool Equals(EmptyItemTemplate other) => ReferenceEquals(this, other) || base.Equals(other);
+
+        public override int GetHashCode() => base.GetHashCode();
     }
 }

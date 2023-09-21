@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 
+using Array = Shims.NET.System.Array;
+
 namespace RandomizerCore.Logic.StateLogic
 {
     /// <summary>

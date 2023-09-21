@@ -59,7 +59,7 @@ namespace RandomizerCore.Randomization
         {
             int amount = -items.Count;
             if (_cap + amount < 0) throw new OutOfLocationsException($"Tried to set cap for items of group {label} to negative value:\n" +
-                $"Cap {_cap} was incremented by {amount}.\nNew items were: {string.Join(", ", items.Select(i => i.Name))}");
+                $"Cap {_cap} was incremented by {amount}.\nNew items were: {string.Join(", ", items.Select(i => i.Name).ToArray())}");
             _cap += amount;
         }
 

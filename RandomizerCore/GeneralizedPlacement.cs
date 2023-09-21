@@ -1,4 +1,5 @@
-﻿using RandomizerCore.Logic;
+﻿using Newtonsoft.Json;
+using RandomizerCore.Logic;
 
 namespace RandomizerCore
 {
@@ -7,6 +8,7 @@ namespace RandomizerCore
         public readonly ILogicItem Item;
         public readonly ILogicDef Location;
 
+        [JsonConstructor]
         public GeneralizedPlacement(ILogicItem Item, ILogicDef Location)
         {
             this.Item = Item;

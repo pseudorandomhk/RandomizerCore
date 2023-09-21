@@ -26,12 +26,12 @@ namespace RandomizerCore.Collections
 
         public bool this[int i]
         {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            //[MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
                 return (_array[i / 32] & (1u << i)) != 0u;
             }
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            //[MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if (value)

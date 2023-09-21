@@ -1,4 +1,5 @@
 ﻿using RandomizerCore.Json;
+using System.Collections;
 using System.Collections.ObjectModel;
 
 namespace RandomizerCore.Logic.StateLogic
@@ -14,6 +15,10 @@ namespace RandomizerCore.Logic.StateLogic
         {
             return StateFieldType.Bool;
         }
+
+        public virtual bool Equals(StateBool other) => ReferenceEquals(this, other) || base.Equals(other);
+
+        public override int GetHashCode() => base.GetHashCode();
     }
     public record StateInt(int Id, string Name) : StateField(Id, Name)
     {
@@ -27,12 +32,21 @@ namespace RandomizerCore.Logic.StateLogic
         {
             return StateFieldType.Int;
         }
+
+        public virtual bool Equals(StateInt other) => ReferenceEquals(this, other) || base.Equals(other);
+
+        public override int GetHashCode() => base.GetHashCode();
     }
     public abstract record StateField(int Id, string Name)
     {
         public const string DefaultValuePropertyName = "DefaultValue";
         public abstract StateFieldType GetFieldType();
         public static implicit operator int(StateField sf) => sf.Id;
+
+        public virtual bool Equals(StateField other) => ReferenceEquals(this, other) ||
+            (other is not null && this.EqualityContract == other.EqualityContract && this.Id == other.Id && this.Name == other.Name);
+
+        public override int GetHashCode() => HashCode.Combine(EqualityContract.GetHashCode(), Id.GetHashCode(), Name?.GetHashCode());
     }
 
     public enum StateFieldType

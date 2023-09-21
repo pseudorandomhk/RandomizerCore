@@ -127,7 +127,7 @@ namespace RandomizerCore.StringLogic
 
         public string ToInfix()
         {
-            return Infix.ToInfix(Tokens);
+            return Infix.ToInfix(Tokens.AsIReadOnlyList());
         }
 
         public override string ToString()

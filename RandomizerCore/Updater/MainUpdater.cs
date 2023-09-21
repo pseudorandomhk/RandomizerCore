@@ -73,7 +73,7 @@ namespace RandomizerCore.Logic
             individualEntries = new List<UpdateEntryBase>(2000);
             this.pm = pm;
             updates = new HashQueue<int>(lm.Terms.Count);
-            addEntryHelper = new HashSet<int>(lm.Terms.Count);
+            addEntryHelper = new HashSet<int>();
             pmHooks = new();
             longTermRevertPoint = new(lm.Terms);
             shortTermRevertPoint = new(lm.Terms);

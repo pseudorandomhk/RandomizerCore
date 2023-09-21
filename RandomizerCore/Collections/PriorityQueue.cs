@@ -214,13 +214,13 @@ namespace RandomizerCore.Collections
             if (list.Length < min) Capacity = Math.Max(min, 2 * list.Length);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         private bool IsLessThan(int i, int p)
         {
             return list[i].CompareTo(list[p]) < 0;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void Swap(int i, int p)
         {
             PriorityEntry temp = list[i];
@@ -228,13 +228,13 @@ namespace RandomizerCore.Collections
             list[p] = temp;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static int GetParent(int i) => (i - 1) / 2;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static int GetLeftChild(int i) => 2 * i + 1;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static int GetRightChild(int i) => 2 * i + 2;
 
         private readonly struct PriorityEntry : IComparable<PriorityEntry>

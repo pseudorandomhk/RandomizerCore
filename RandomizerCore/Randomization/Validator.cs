@@ -49,7 +49,7 @@ namespace RandomizerCore.Randomization
             if (nameCounts.Any(kvp => kvp.Value != 0))
             {
                 throw new ValidationException($"Improper item counts found in plcaements for randomization group {group.Label}: " +
-                    $"nonzero net counts (requested minus placed) are {string.Join(", ", nameCounts.Where(kvp => kvp.Value != 0).Select(kvp => (kvp.Key, kvp.Value)))}");
+                    $"nonzero net counts (requested minus placed) are {string.Join(", ", nameCounts.Where(kvp => kvp.Value != 0).Select(kvp => (kvp.Key, kvp.Value).ToString()).ToArray())}");
             }
             nameCounts.Clear();
             foreach (IRandoLocation r in group.Locations)
@@ -65,7 +65,7 @@ namespace RandomizerCore.Randomization
             if (nameCounts.Any(kvp => kvp.Value != 0))
             {
                 throw new ValidationException($"Improper location counts found in plcaements for randomization group {group.Label}: " +
-                    $"nonzero net counts (requested minus placed) are {string.Join(", ", nameCounts.Where(kvp => kvp.Value != 0).Select(kvp => (kvp.Key, kvp.Value)))}");
+                    $"nonzero net counts (requested minus placed) are {string.Join(", ", nameCounts.Where(kvp => kvp.Value != 0).Select(kvp => (kvp.Key, kvp.Value).ToString()).ToArray())}");
             }
         }
 

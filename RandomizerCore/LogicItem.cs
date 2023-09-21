@@ -1,5 +1,6 @@
 ﻿using RandomizerCore.Logic;
 using RandomizerCore.LogicItems;
+using System.Collections;
 
 namespace RandomizerCore
 {
@@ -52,5 +53,10 @@ namespace RandomizerCore
         {
             return this;
         }
-    }    
+
+        public virtual bool Equals(LogicItem other) => ReferenceEquals(this, other) ||
+            (other is not null && this.EqualityContract == other.EqualityContract && this.Name == other.Name);
+
+        public override int GetHashCode() => HashCode.Combine(EqualityContract.GetHashCode(), Name?.GetHashCode());
+    }
 }

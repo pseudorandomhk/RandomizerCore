@@ -1,6 +1,7 @@
 ﻿using RandomizerCore.Json;
 using RandomizerCore.Logic.StateLogic;
 using RandomizerCore.StringLogic;
+using System.Collections;
 using System.Runtime.CompilerServices;
 
 namespace RandomizerCore.Logic
@@ -26,7 +27,7 @@ namespace RandomizerCore.Logic
             Array.Copy(from.StateData, to.StateData, from.StateData.Length);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int GetValue(int id)
         {
             return Term.GetTermType(id) switch
@@ -76,7 +77,7 @@ namespace RandomizerCore.Logic
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public StateUnion? GetState(int id)
         {
             return StateData[Term.GetIndex(id)];
@@ -98,19 +99,19 @@ namespace RandomizerCore.Logic
         {
             Dictionary<string, object> o = new();
 
-            IReadOnlyList<Term> termList = lm.Terms.GetTermList(TermType.SignedByte);
+            IReadOnlyList<Term> termList = lm.Terms.GetTermList(TermType.SignedByte).AsIReadOnlyList();
             for (int i = 0; i < Data.Length; i++)
             {
                 if (Data[i] != 0) o.Add(termList[i].Name, (int)Data[i]);
             }
 
-            termList = lm.Terms.GetTermList(TermType.Int);
+            termList = lm.Terms.GetTermList(TermType.Int).AsIReadOnlyList();
             for (int i = 0; i < LargeData.Length; i++)
             {
                 if (LargeData[i] != 0) o.Add(termList[i].Name, LargeData[i]);
             }
 
-            termList = lm.Terms.GetTermList(TermType.State);
+            termList = lm.Terms.GetTermList(TermType.State).AsIReadOnlyList();
             for (int i = 0; i < StateData.Length; i++)
             {
                 if (StateData[i] is not null) o.Add(termList[i].Name, lm.StateManager.PrettyPrint(StateData[i]));
@@ -153,19 +154,19 @@ namespace RandomizerCore.Logic
             List<Term> result = new();
             LogicManager lm = left.LM;
 
-            IReadOnlyList<Term> termList = lm.Terms.GetTermList(TermType.SignedByte);
+            IReadOnlyList<Term> termList = lm.Terms.GetTermList(TermType.SignedByte).AsIReadOnlyList();
             for (int i = 0; i < left.Data.Length; i++)
             {
                 if (left.Data[i] < right.Data[i]) result.Add(termList[i]);
             }
 
-            termList = lm.Terms.GetTermList(TermType.Int);
+            termList = lm.Terms.GetTermList(TermType.Int).AsIReadOnlyList();
             for (int i = 0; i < left.LargeData.Length; i++)
             {
                 if (left.LargeData[i] < right.LargeData[i]) result.Add(termList[i]);
             }
 
-            termList = lm.Terms.GetTermList(TermType.State);
+            termList = lm.Terms.GetTermList(TermType.State).AsIReadOnlyList();
             for (int i = 0; i < left.StateData.Length; i++)
             {
                 if (StateUnion.IsProgressivelyLE(left.StateData[i], right.StateData[i])
@@ -180,19 +181,19 @@ namespace RandomizerCore.Logic
             List<Term> result = new();
             LogicManager lm = left.LM;
 
-            IReadOnlyList<Term> termList = lm.Terms.GetTermList(TermType.SignedByte);
+            IReadOnlyList<Term> termList = lm.Terms.GetTermList(TermType.SignedByte).AsIReadOnlyList();
             for (int i = 0; i < left.Data.Length; i++)
             {
                 if (left.Data[i] != right.Data[i]) result.Add(termList[i]);
             }
 
-            termList = lm.Terms.GetTermList(TermType.Int);
+            termList = lm.Terms.GetTermList(TermType.Int).AsIReadOnlyList();
             for (int i = 0; i < left.LargeData.Length; i++)
             {
                 if (left.LargeData[i] != right.LargeData[i]) result.Add(termList[i]);
             }
 
-            termList = lm.Terms.GetTermList(TermType.State);
+            termList = lm.Terms.GetTermList(TermType.State).AsIReadOnlyList();
             for (int i = 0; i < left.StateData.Length; i++)
             {
                 if (!StateUnion.IsProgressivelyEqual(left.StateData[i], right.StateData[i])) result.Add(termList[i]);
@@ -206,5 +207,14 @@ namespace RandomizerCore.Logic
             return new(LM, (sbyte[])Data.Clone(), (int[])LargeData.Clone(), (StateUnion?[])StateData.Clone());
         }
 
+        public virtual bool Equals(ProgressionData other) => ReferenceEquals(this, other) ||
+            (ReferenceEquals(this.LM, other.LM) && ReferenceEquals(this.Data, other.Data)
+            && ReferenceEquals(this.LargeData, other.LargeData) && ReferenceEquals(this.StateData, other.StateData));
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(base.GetHashCode(), LM?.GetHashCode(), Data?.GetHashCode(),
+                LargeData?.GetHashCode(), StateData?.GetHashCode());
+        }
     }
 }

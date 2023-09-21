@@ -15,13 +15,13 @@ namespace RandomizerCore.Logic
         private const int indexBits = 28;
         public static int TermTypeCount { get; } = 3;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetIndex(int id)
         {
             return id & ~bitFilter;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TermType GetTermType(int id)
         {
             return (TermType)(id >> indexBits);

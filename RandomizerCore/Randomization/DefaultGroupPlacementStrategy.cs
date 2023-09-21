@@ -1,5 +1,6 @@
 ﻿using RandomizerCore.Collections;
 using RandomizerCore.Exceptions;
+using System.Collections;
 
 namespace RandomizerCore.Randomization
 {
@@ -32,8 +33,6 @@ namespace RandomizerCore.Randomization
                 this.Label = Label;
             }
 
-            protected Constraint() { }
-
             /// <summary>
             /// Return false to indicate that the item cannot be placed with the location, unless no constraint-satisfying alternatives exist.
             /// </summary>
@@ -45,6 +44,13 @@ namespace RandomizerCore.Randomization
             /// </summary>
             /// 
             public void OnViolated(IRandoItem ri, IRandoLocation rl) => Fail?.Invoke(ri, rl);
+
+            public virtual bool Equals(Constraint other) => ReferenceEquals(this, other) ||
+                (other is not null && this.EqualityContract == other.EqualityContract && ReferenceEquals(this.Test, other.Test) &&
+                ReferenceEquals(this.Fail, other.Fail) && this.Label == other.Label);
+
+            public override int GetHashCode() => HashCode.Combine(EqualityContract.GetHashCode(), Test?.GetHashCode(),
+                Fail?.GetHashCode(), Label?.GetHashCode());
         }
 
         /// <summary>
@@ -176,7 +182,7 @@ namespace RandomizerCore.Randomization
                 else
                 {
                     Dictionary<IRandoCouple, int> locDepthLookup = _locations.SelectMany((l, i) => l.Select(rl => (rl, i))).ToDictionary(p => (IRandoCouple)p.rl, p => p.i);
-                    SortedArrayList<IRandoItem> remainingItems = new(locDepthLookup.Keys, ComparerUtil.ItemComparer, ComparerUtil.ItemEqualityComparer);
+                    SortedArrayList<IRandoItem> remainingItems = new(locDepthLookup.Keys.Select(irc => irc as IRandoItem), ComparerUtil.ItemComparer, ComparerUtil.ItemEqualityComparer);
                     while (remainingItems.TryExtractMin(out IRandoItem? ri))
                     {
                         IRandoLocation rl = SelectNext(sphere, _locations, _meanSphereProgressionPriorities, ri, out int priorityDepth, out int locationDepth, out float adjustedPriority);

@@ -63,7 +63,7 @@ namespace RandomizerCore.Randomization
             InitializeReachable();
 
             pm.AfterEndTemp += OnEndTemp;
-            pm.mu.AddEntries(GetEntries(group.Locations));
+            pm.mu.AddEntries(GetEntries(group.Locations.AsIReadOnlyList()));
             this.onFind = onFind;
         }
 
@@ -82,7 +82,7 @@ namespace RandomizerCore.Randomization
                     entries.Add(new GroupLocationTrackerUpdateEntry(this, locations[i]));
                 }
             }
-            return entries;
+            return entries.Select(gltue => gltue as UpdateEntry);
         }
 
         private class GroupLocationTrackerUpdateEntry : UpdateEntry

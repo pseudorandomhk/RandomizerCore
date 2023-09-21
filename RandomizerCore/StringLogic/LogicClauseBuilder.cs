@@ -216,7 +216,7 @@ namespace RandomizerCore.StringLogic
             {
                 if (_tokens[i] is ConstToken ct)
                 {
-                    RPN.GetOperationBoundToTerm(_tokens, i, out Range operandRange, out int opIndex);
+                    RPN.GetOperationBoundToTerm(_tokens.AsIReadOnlyList(), i, out Range operandRange, out int opIndex);
                     OperatorToken op = (OperatorToken)_tokens[opIndex];
                     if (op.OperatorType == OperatorType.AND)
                     {
@@ -343,7 +343,7 @@ namespace RandomizerCore.StringLogic
                     int firstInner = -1;
                     int lastInner = -1;
                     int outer = -1;
-                    for (int j = RPN.GetBoundOperatorAlt(_tokens, i); j != -1; j = RPN.GetBoundOperatorAlt(_tokens, j))
+                    for (int j = RPN.GetBoundOperatorAlt(_tokens.AsIReadOnlyList(), i); j != -1; j = RPN.GetBoundOperatorAlt(_tokens.AsIReadOnlyList(), j))
                     {
                         if (_tokens[j] == innerOp)
                         {
@@ -365,7 +365,7 @@ namespace RandomizerCore.StringLogic
                         {
                             // the loop identifies an expression (a | (b | ... | SPECIALCONJ | ... | g)) + (...)
                             // we want to commute to (SPECIALCONJ | (a | ... | g)) + (...)
-                            (int offset, int length) = RPN.GetEnclosingClause(_tokens, i, firstInner).GetOffsetAndLength(_tokens.Count);
+                            (int offset, int length) = RPN.GetEnclosingClause(_tokens.AsIReadOnlyList(), i, firstInner).GetOffsetAndLength(_tokens.Count);
                             _tokens.InsertRange(lastInner + 1, _tokens.GetRange(offset, length));
                             _tokens.Insert(lastInner + 1 + length, OperatorToken.OR);
                             _tokens.RemoveAt(firstInner);
@@ -375,9 +375,9 @@ namespace RandomizerCore.StringLogic
                         // we want to distribute to (SPECIALCONJ + ...) | ((a | ... | g) + (...))
                         if (lastInner == outer - 1)
                         {
-                            (int innerRstart, int innerRcount) = RPN.GetClauseRangeFromEnd(_tokens, lastInner - 1).GetOffsetAndLength(_tokens.Count);
-                            (int innerLstart, int innerLcount) = RPN.GetClauseRangeFromEnd(_tokens, innerRstart - 1).GetOffsetAndLength(_tokens.Count);
-                            (int outerArgStart, int outerArgCount) = RPN.GetClauseRangeFromEnd(_tokens, innerLstart - 1).GetOffsetAndLength(_tokens.Count);
+                            (int innerRstart, int innerRcount) = RPN.GetClauseRangeFromEnd(_tokens.AsIReadOnlyList(), lastInner - 1).GetOffsetAndLength(_tokens.Count);
+                            (int innerLstart, int innerLcount) = RPN.GetClauseRangeFromEnd(_tokens.AsIReadOnlyList(), innerRstart - 1).GetOffsetAndLength(_tokens.Count);
+                            (int outerArgStart, int outerArgCount) = RPN.GetClauseRangeFromEnd(_tokens.AsIReadOnlyList(), innerLstart - 1).GetOffsetAndLength(_tokens.Count);
 
                             List<LogicToken> outerArgTokens = _tokens.GetRange(outerArgStart, outerArgCount);
                             _tokens.RemoveAt(outer);
@@ -391,9 +391,9 @@ namespace RandomizerCore.StringLogic
                         }
                         else
                         {
-                            (int outerArgStart, int outerArgCount) = RPN.GetClauseRangeFromEnd(_tokens, outer - 1).GetOffsetAndLength(_tokens.Count);
-                            (int innerRstart, int innerRcount) = RPN.GetClauseRangeFromEnd(_tokens, lastInner - 1).GetOffsetAndLength(_tokens.Count);
-                            (int innerLstart, int innerLcount) = RPN.GetClauseRangeFromEnd(_tokens, innerRstart - 1).GetOffsetAndLength(_tokens.Count);
+                            (int outerArgStart, int outerArgCount) = RPN.GetClauseRangeFromEnd(_tokens.AsIReadOnlyList(), outer - 1).GetOffsetAndLength(_tokens.Count);
+                            (int innerRstart, int innerRcount) = RPN.GetClauseRangeFromEnd(_tokens.AsIReadOnlyList(), lastInner - 1).GetOffsetAndLength(_tokens.Count);
+                            (int innerLstart, int innerLcount) = RPN.GetClauseRangeFromEnd(_tokens.AsIReadOnlyList(), innerRstart - 1).GetOffsetAndLength(_tokens.Count);
 
                             List<LogicToken> conjArgTokens = _tokens.GetRange(outerArgStart, outerArgCount);
                             _tokens.RemoveAt(outer);
@@ -428,7 +428,7 @@ namespace RandomizerCore.StringLogic
                     int firstInner = -1;
                     int lastInner = -1;
                     int outer = -1;
-                    for (int j = RPN.GetBoundOperatorAlt(_tokens, i); j != -1; j = RPN.GetBoundOperatorAlt(_tokens, j))
+                    for (int j = RPN.GetBoundOperatorAlt(_tokens.AsIReadOnlyList(), i); j != -1; j = RPN.GetBoundOperatorAlt(_tokens.AsIReadOnlyList(), j))
                     {
                         if (_tokens[j] == innerOp)
                         {
@@ -450,7 +450,7 @@ namespace RandomizerCore.StringLogic
                         {
                             // the loop identifies an expression (a | (b | ... | SPECIALCONJ | ... | g)) + (...)
                             // we want to commute to (SPECIALCONJ | (a | ... | g)) + (...)
-                            (int offset, int length) = RPN.GetEnclosingClause(_tokens, i, firstInner).GetOffsetAndLength(_tokens.Count);
+                            (int offset, int length) = RPN.GetEnclosingClause(_tokens.AsIReadOnlyList(), i, firstInner).GetOffsetAndLength(_tokens.Count);
                             _tokens.InsertRange(lastInner + 1, _tokens.GetRange(offset, length));
                             _tokens.Insert(lastInner + 1 + length, OperatorToken.OR);
                             _tokens.RemoveAt(firstInner);
@@ -460,9 +460,9 @@ namespace RandomizerCore.StringLogic
                         // we want to distribute to (SPECIALCONJ + ...) | ((a | ... | g) + (...))
                         if (lastInner == outer - 1)
                         {
-                            (int innerRstart, int innerRcount) = RPN.GetClauseRangeFromEnd(_tokens, lastInner - 1).GetOffsetAndLength(_tokens.Count);
-                            (int innerLstart, int innerLcount) = RPN.GetClauseRangeFromEnd(_tokens, innerRstart - 1).GetOffsetAndLength(_tokens.Count);
-                            (int outerArgStart, int outerArgCount) = RPN.GetClauseRangeFromEnd(_tokens, innerLstart - 1).GetOffsetAndLength(_tokens.Count);
+                            (int innerRstart, int innerRcount) = RPN.GetClauseRangeFromEnd(_tokens.AsIReadOnlyList(), lastInner - 1).GetOffsetAndLength(_tokens.Count);
+                            (int innerLstart, int innerLcount) = RPN.GetClauseRangeFromEnd(_tokens.AsIReadOnlyList(), innerRstart - 1).GetOffsetAndLength(_tokens.Count);
+                            (int outerArgStart, int outerArgCount) = RPN.GetClauseRangeFromEnd(_tokens.AsIReadOnlyList(), innerLstart - 1).GetOffsetAndLength(_tokens.Count);
 
                             List<LogicToken> outerArgTokens = _tokens.GetRange(outerArgStart, outerArgCount);
                             _tokens.RemoveAt(outer);
@@ -476,9 +476,9 @@ namespace RandomizerCore.StringLogic
                         }
                         else
                         {
-                            (int outerArgStart, int outerArgCount) = RPN.GetClauseRangeFromEnd(_tokens, outer - 1).GetOffsetAndLength(_tokens.Count);
-                            (int innerRstart, int innerRcount) = RPN.GetClauseRangeFromEnd(_tokens, lastInner - 1).GetOffsetAndLength(_tokens.Count);
-                            (int innerLstart, int innerLcount) = RPN.GetClauseRangeFromEnd(_tokens, innerRstart - 1).GetOffsetAndLength(_tokens.Count);
+                            (int outerArgStart, int outerArgCount) = RPN.GetClauseRangeFromEnd(_tokens.AsIReadOnlyList(), outer - 1).GetOffsetAndLength(_tokens.Count);
+                            (int innerRstart, int innerRcount) = RPN.GetClauseRangeFromEnd(_tokens.AsIReadOnlyList(), lastInner - 1).GetOffsetAndLength(_tokens.Count);
+                            (int innerLstart, int innerLcount) = RPN.GetClauseRangeFromEnd(_tokens.AsIReadOnlyList(), innerRstart - 1).GetOffsetAndLength(_tokens.Count);
 
                             List<LogicToken> conjArgTokens = _tokens.GetRange(outerArgStart, outerArgCount);
                             _tokens.RemoveAt(outer);
@@ -532,7 +532,7 @@ namespace RandomizerCore.StringLogic
 
         public string ToInfix()
         {
-            return Infix.ToInfix(_tokens);
+            return Infix.ToInfix(_tokens.AsIReadOnlyList());
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using RandomizerCore.Logic;
+using System.Collections;
 
 namespace RandomizerCore.LogicItems
 {
@@ -21,5 +22,11 @@ namespace RandomizerCore.LogicItems
             return (TrueItem?.GetAffectedTerms() ?? Enumerable.Empty<Term>())
                 .Concat(FalseItem?.GetAffectedTerms() ?? Enumerable.Empty<Term>());
         }
+
+        public bool Equals(BranchedItem other) => ReferenceEquals(this, other) ||
+            (base.Equals(other) && this.Logic == other.Logic && this.TrueItem == other.TrueItem && this.FalseItem == other.FalseItem);
+
+        public override int GetHashCode() => HashCode.Combine(base.GetHashCode(), Logic?.GetHashCode(),
+            TrueItem?.GetHashCode(), FalseItem?.GetHashCode());
     }
 }

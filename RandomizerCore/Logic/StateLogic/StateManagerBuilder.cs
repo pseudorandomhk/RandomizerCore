@@ -193,7 +193,11 @@ namespace RandomizerCore.Logic.StateLogic
                 foreach (var kvp in rsd.Fields)
                 {
                     StateFieldType type = (StateFieldType)Enum.Parse(typeof(StateFieldType), kvp.Key, true);
-                    foreach (string s in kvp.Value) GetOrAddField(s, type);
+                    foreach (string s in kvp.Value)
+                    {
+                        GetOrAddField(s, type);
+                        //Log($"Add field {s} [{type}]");
+                    }
                 }
             }
 
@@ -208,18 +212,27 @@ namespace RandomizerCore.Logic.StateLogic
                     foreach (var kvp2 in kvp.Value)
                     {
                         propertyLookup[kvp2.Key] = kvp2.Value;
+                        //Log($"Add property {kvp2.Key} = {kvp2.Value}");
                     }
                 }
             }
 
             if (rsd.NamedStates is not null)
             {
-                foreach (var kvp in rsd.NamedStates) _namedStates[kvp.Key] = new(kvp.Value);
+                foreach (var kvp in rsd.NamedStates)
+                {
+                    _namedStates[kvp.Key] = new(kvp.Value);
+                    //Log($"Add named state {kvp.Key}");
+                }
             }
 
             if (rsd.NamedStateUnions is not null)
             {
-                foreach (var kvp in rsd.NamedStateUnions) _namedStateUnions[kvp.Key] = new(kvp.Value.Select(s => new PreState(s)));
+                foreach (var kvp in rsd.NamedStateUnions)
+                {
+                    _namedStateUnions[kvp.Key] = new(kvp.Value.Select(s => new PreState(s)));
+                    //Log($"Add named state union {kvp.Key}");
+                }
             }
         }
 

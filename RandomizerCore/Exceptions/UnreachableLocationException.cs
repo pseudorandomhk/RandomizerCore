@@ -41,7 +41,7 @@ namespace RandomizerCore.Exceptions
                     sb.Append("  ");
                     sb.Append(stage.groups[i].Label);
                     sb.Append(": ");
-                    sb.AppendLine(string.Join(", ", list.Select(l => l.Name)));
+                    sb.AppendLine(string.Join(", ", list.Select(l => $"{l.Name} ({l.GetType()})").ToArray()));
                 }
             }
             sb.AppendLine(pm.Dump());

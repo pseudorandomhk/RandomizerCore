@@ -5,6 +5,8 @@ using RandomizerCore.Logic.StateLogic;
 using RandomizerCore.LogicItems;
 using RandomizerCore.StringLogic;
 
+using Enum = Shims.NET.System.Enum;
+
 namespace RandomizerCore.Logic
 {
     public class LogicManagerBuilder

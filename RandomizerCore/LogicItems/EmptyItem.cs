@@ -2,10 +2,8 @@
 
 namespace RandomizerCore.LogicItems
 {
-    public sealed record EmptyItem : LogicItem
+    public sealed record EmptyItem(string Name) : LogicItem(Name)
     {
-        public EmptyItem(string Name) : base(Name) { }
-
         public override void AddTo(ProgressionManager pm)
         {
             return;
@@ -15,5 +13,9 @@ namespace RandomizerCore.LogicItems
         {
             return Enumerable.Empty<Term>();
         }
+
+        public bool Equals(EmptyItem other) => base.Equals(other);
+
+        public override int GetHashCode() => base.GetHashCode();
     }
 }

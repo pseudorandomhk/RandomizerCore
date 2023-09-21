@@ -1,4 +1,5 @@
 ﻿using RandomizerCore.Logic;
+using System.Collections;
 
 namespace RandomizerCore.LogicItems
 {
@@ -22,5 +23,10 @@ namespace RandomizerCore.LogicItems
         {
             return Create(lm);
         }
+
+        public virtual bool Equals(LogicItemTemplate<T> other) => ReferenceEquals(this, other) ||
+            (other is not null && this.EqualityContract == other.EqualityContract && this.Name == other.Name);
+
+        public override int GetHashCode() => HashCode.Combine(EqualityContract.GetHashCode(), Name?.GetHashCode());
     }
 }

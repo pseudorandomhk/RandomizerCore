@@ -50,13 +50,13 @@ namespace RandomizerCore.Logic
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int Get(int id)
         {
             return obtained.GetValue(id);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public StateUnion? GetState(int id)
         {
             return obtained.GetState(id);
@@ -67,25 +67,25 @@ namespace RandomizerCore.Logic
             return obtained.GetState(lm.GetTermStrict(name));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetState(int id, StateUnion? state)
         {
             obtained.SetState(id, state);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void GiveMinimumState(int id)
         {
             obtained.GiveMinimumState(id);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Set(int id, int value)
         {
             obtained.SetValue(id, value);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Set(TermValue tv)
         {
             obtained.SetValue(tv.Term.Id, tv.Value);
@@ -96,13 +96,13 @@ namespace RandomizerCore.Logic
             obtained.SetValue(lm.GetTermStrict(term).Id, value);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Incr(int id, int value)
         {
             obtained.Increment(id, value);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Incr(TermValue tv)
         {
             obtained.Increment(tv.Term.Id, tv.Value);
@@ -121,7 +121,7 @@ namespace RandomizerCore.Logic
         /// <summary>
         /// Returns true if the value at the index is positive.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Has(int id)
         {
             return obtained.GetValue(id) > 0;
@@ -130,7 +130,7 @@ namespace RandomizerCore.Logic
         /// <summary>
         /// Returns true if the value at the index is greater than or equal to the threshold.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Has(int id, int threshold)
         {
             return obtained.GetValue(id) >= threshold;

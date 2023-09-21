@@ -1,4 +1,5 @@
 ﻿using RandomizerCore.Logic;
+using System.Collections;
 
 namespace RandomizerCore.LogicItems
 {
@@ -19,5 +20,10 @@ namespace RandomizerCore.LogicItems
         {
             return Effects.Select(e => e.Term);
         }
+
+        public bool Equals(CappedItem other) => ReferenceEquals(this, other) ||
+            (base.Equals(other) && ReferenceEquals(this.Effects, other.Effects) && this.Cap.Equals(other.Cap));
+
+        public override int GetHashCode() => HashCode.Combine(base.GetHashCode(), Effects?.GetHashCode(), Cap.GetHashCode());
     }
 }

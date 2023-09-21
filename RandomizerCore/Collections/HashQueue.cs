@@ -20,7 +20,7 @@ namespace RandomizerCore.Logic
         public HashQueue(int capacity)
         {
             queue = new Queue<T>(capacity);
-            set = new HashSet<T>(capacity);
+            set = new HashSet<T>();
         }
 
         public HashQueue(IEnumerable<T> ts)

@@ -9,12 +9,12 @@ namespace RandomizerCore.StringLogic
     {
         public static string ToInfix(List<TermToken> conjunction)
         {
-            return string.Join(" + ", conjunction.Select(t => t.Write()));
+            return string.Join(" + ", conjunction.Select(t => t.Write()).ToArray());
         }
 
         public static string ToInfix(List<List<TermToken>> dnf)
         {
-            return string.Join(" | ", dnf.Select(c => string.Join(" + ", c.Select(t => t.Write()))));
+            return string.Join(" | ", dnf.Select(c => string.Join(" + ", c.Select(t => t.Write()).ToArray())).ToArray());
         }
     }
 }

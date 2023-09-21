@@ -4,13 +4,13 @@
     <AssemblyTitle>RandomizerCore</AssemblyTitle>
     <AssemblyVersion>1.1.2.0</AssemblyVersion>
     <FileVersion>1.1.2.0</FileVersion>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net35</TargetFramework>
     <Deterministic>true</Deterministic>
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <ImplicitUsings>true</ImplicitUsings>
     <Nullable>annotations</Nullable>
-    <References>C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed</References>
+    <References>C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight 1028\hollow_knight_Data\Managed</References>
   </PropertyGroup>
 
   <Import Project="LocalOverrides.targets" Condition="Exists('LocalOverrides.targets')"/>
@@ -19,14 +19,13 @@
     <Using Remove="System.Net.Http" />
     <Using Remove="System.Threading" />
     <Using Remove="System.Threading.Tasks" />
-    <PackageReference Include="PolySharp" Version="1.8.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <Using Include="RandomizerCore.LogHelper" Static="true" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>$(References)\Newtonsoft.Json.dll</HintPath>
     </Reference>
+	  <Reference Include="Assembly-CSharp">
+		  <HintPath>$(References)\Assembly-CSharp.dll</HintPath>
+	  </Reference>
   </ItemGroup>
   <PropertyGroup>
     <WarningsAsErrors>;NU1605</WarningsAsErrors>

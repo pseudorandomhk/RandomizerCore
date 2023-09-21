@@ -1,4 +1,5 @@
 ﻿using RandomizerCore.Logic;
+using System.Collections;
 
 namespace RandomizerCore.LogicItems.Templates
 {
@@ -8,5 +9,10 @@ namespace RandomizerCore.LogicItems.Templates
         {
             return new(Name, Effects.Select(p => new TermValue(lm.GetTermStrict(p.Term), p.Value)).ToArray());
         }
+
+        public virtual bool Equals(MultiItemTemplate other) => ReferenceEquals(this, other) ||
+            (base.Equals(other) && ReferenceEquals(this.Effects, other.Effects));
+
+        public override int GetHashCode() => HashCode.Combine(base.GetHashCode(), Effects?.GetHashCode());
     }
 }

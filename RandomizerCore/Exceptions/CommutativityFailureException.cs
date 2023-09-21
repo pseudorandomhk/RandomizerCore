@@ -30,8 +30,8 @@ namespace RandomizerCore.Exceptions
             ProgressionData snapshot = pm.GetSnapshot();
             StringBuilder sb = new();
             sb.AppendLine(message);
-            sb.AppendLine("Passing item order: " + string.Join(", ", gtList.Select(i => "[" + string.Join(", ", i.Select(li => li.Name)) + "]")));
-            sb.AppendLine("Failing item order: " + string.Join(", ", ltList.Select(i => "[" + string.Join(", ", i.Select(li => li.Name)) + "]")));
+            sb.AppendLine("Passing item order: " + string.Join(", ", gtList.Select(i => "[" + string.Join(", ", i.Select(li => li.Name).ToArray()) + "]").ToArray()));
+            sb.AppendLine("Failing item order: " + string.Join(", ", ltList.Select(i => "[" + string.Join(", ", i.Select(li => li.Name).ToArray()) + "]").ToArray()));
 
             if (pm.Temp) pm.RemoveTempItems();
 
@@ -44,7 +44,7 @@ namespace RandomizerCore.Exceptions
             try
             {
                 pm.mu.StartUpdating();
-                foreach (IEnumerable<IRandoItem> l in gtList) pm.Add(l);
+                foreach (IEnumerable<IRandoItem> l in gtList) pm.Add(l.Select(iri => iri as ILogicItem));
 
                 if (!located)
                 {
@@ -102,11 +102,11 @@ namespace RandomizerCore.Exceptions
                 {
                     if (pm.mu.Current is object o)
                     {
-                        sb.AppendLine($"Noncommutativity tracked to update for entry {o} leading to items {string.Join(", ", li.Select(i => i.Name))}, affecting terms:");
+                        sb.AppendLine($"Noncommutativity tracked to update for entry {o} leading to items {string.Join(", ", li.Select(i => i.Name).ToArray())}, affecting terms:");
                     }
                     else
                     {
-                        sb.AppendLine($"Noncommutativity tracked to items {string.Join(", ", li.Select(i => i.Name))}, affecting terms:");
+                        sb.AppendLine($"Noncommutativity tracked to items {string.Join(", ", li.Select(i => i.Name).ToArray())}, affecting terms:");
                     }
                     foreach (Term t in terms)
                     {

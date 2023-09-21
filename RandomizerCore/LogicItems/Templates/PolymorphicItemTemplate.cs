@@ -1,5 +1,6 @@
 ﻿using RandomizerCore.Logic;
 using System.Reflection;
+using static Shims.NET.System.Reflection.PropertyInfo;
 
 namespace RandomizerCore.LogicItems.Templates
 {

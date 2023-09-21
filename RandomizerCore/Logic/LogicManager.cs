@@ -289,7 +289,7 @@ namespace RandomizerCore.Logic
         {
             try
             {
-                return FromTokens(def.name, LP.ParseInfixToList(def.logic));
+                return FromTokens(def.name, LP.ParseInfixToList(def.logic).AsIReadOnlyList());
             }
             catch (Exception e)
             {
@@ -349,7 +349,7 @@ namespace RandomizerCore.Logic
                 {
                     Log($"Warning - DNF for {name} expanded to {res.Count} clauses.");
                 }
-                DNFLogicDef result = new(CreateClauses, this, name, Infix.ToInfix(tokens));
+                DNFLogicDef result = new(CreateClauses, this, name, Infix.ToInfix(tokens.AsIReadOnlyList()));
                 Profiling.EmitMetric("LogicManager.CreateDNFLogicDef.ResultingTermCount", result.GetTerms().Count());
                 return result;
 

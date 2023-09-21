@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using RandomizerCore.Logic.StateLogic;
 
+using Array = Shims.NET.System.Array;
 
 namespace RandomizerCore.Logic
 {

@@ -36,6 +36,7 @@ namespace RandomizerCore.Randomization
 
         public List<List<RandoPlacement>[]> Run()
         {
+            int retries = 0;
             while (true)
             {
                 try
@@ -51,11 +52,15 @@ namespace RandomizerCore.Randomization
                 catch (OutOfLocationsException e)
                 {
                     rm.SendError(e);
+                    if (++retries > 3)
+                        throw;
                     Reset();
                 }
                 catch (UnreachableLocationException e)
                 {
                     rm.SendError(e);
+                    if (++retries > 3)
+                        throw;
                     Reset();
                 }
             }

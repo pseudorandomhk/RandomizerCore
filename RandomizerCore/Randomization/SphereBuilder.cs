@@ -175,7 +175,7 @@ namespace RandomizerCore.Randomization
             {
                 if (Spheres[i][j].Items.Count > 0)
                 {
-                    Log($"  {groups[j].Label}: {string.Join(", ", Spheres[i][j].Items.Select(i => i.Name))}");
+                    Log($"  {groups[j].Label}: {string.Join(", ", Spheres[i][j].Items.Select(i => i.Name).ToArray())}");
                 }
             }
             Log("Unlocked:");
@@ -183,7 +183,7 @@ namespace RandomizerCore.Randomization
             {
                 if (Spheres[i][j].Locations.Count > 0)
                 {
-                    Log($"  {groups[j].Label}: {string.Join(", ", Spheres[i][j].Locations.Select(i => i.Name))}");
+                    Log($"  {groups[j].Label}: {string.Join(", ", Spheres[i][j].Locations.Select(i => i.Name).ToArray())}");
                 }
             }
             Log("Current placements:");
@@ -216,7 +216,7 @@ namespace RandomizerCore.Randomization
                 {
                     if (Spheres[i][j].Items.Count > 0)
                     {
-                        Log($"  {groups[j].Label}: {string.Join(", ", Spheres[i][j].Items.Select(i => i.Name))}");
+                        Log($"  {groups[j].Label}: {string.Join(", ", Spheres[i][j].Items.Select(i => i.Name).ToArray())}");
                     }
                 }
                 Log("Unlocked:");
@@ -224,7 +224,7 @@ namespace RandomizerCore.Randomization
                 {
                     if (Spheres[i][j].Locations.Count > 0)
                     {
-                        Log($"  {groups[j].Label}: {string.Join(", ", Spheres[i][j].Locations.Select(i => i.Name))}");
+                        Log($"  {groups[j].Label}: {string.Join(", ", Spheres[i][j].Locations.Select(i => i.Name).ToArray())}");
                     }
                 }
             }
@@ -236,7 +236,7 @@ namespace RandomizerCore.Randomization
             int[] items = new int[groups.Length];
             int[] locations = new int[groups.Length];
 
-            Log($"Total: {string.Join(", ", groups.Select(g => $"{g.Items.Length}/{g.Locations.Length}"))}");
+            Log($"Total: {string.Join(", ", groups.Select(g => $"{g.Items.Length}/{g.Locations.Length}").ToArray())}");
 
             for (int i = 0; i < Spheres.Count; i++)
             {
@@ -246,8 +246,8 @@ namespace RandomizerCore.Randomization
                     locations[j] += Spheres[i][j].Locations.Count;
                 }
 
-                Log($"[{i}]  items: {string.Join(", ", groups.Select((g, j) => g.Label.Substring(0, 4) + " " + items[j]))}");
-                Log($"[{i}]  locations: {string.Join(", ", groups.Select((g, j) => g.Label.Substring(0, 4) + " " + locations[j]))}");
+                Log($"[{i}]  items: {string.Join(", ", groups.Select((g, j) => g.Label.Substring(0, 4) + " " + items[j]).ToArray())}");
+                Log($"[{i}]  locations: {string.Join(", ", groups.Select((g, j) => g.Label.Substring(0, 4) + " " + locations[j]).ToArray())}");
                 Log();
             }
         }
@@ -316,7 +316,7 @@ namespace RandomizerCore.Randomization
             }
             catch (OutOfLocationsException oole)
             {
-                throw new OutOfLocationsException($"Used too many locations to unlock {string.Join(", ", rt.FindNonreachableLocations().SelectMany(l => l.Select(rl => rl.Name)))}" , oole);
+                throw new OutOfLocationsException($"Used too many locations to unlock {string.Join(", ", rt.FindNonreachableLocations().SelectMany(l => l.Select(rl => rl.Name)).ToArray())}" , oole);
             }
 
             pm.SaveTempItems();
@@ -328,7 +328,7 @@ namespace RandomizerCore.Randomization
             bool Decide(IRandoItem t)
             {
                 t.Placed = TempState.None;
-                pm.RestrictTempTo(selector.GetTestItems());
+                pm.RestrictTempTo(selector.GetTestItems().Select(iri => iri as ILogicItem));
 
                 if (rt.FoundNew)
                 {
@@ -348,14 +348,14 @@ namespace RandomizerCore.Randomization
 
                 // Begin short circuit test
 
-                pm.RestrictTempTo(selector.GetAcceptedItems());
+                pm.RestrictTempTo(selector.GetAcceptedItems().Select(iri => iri as ILogicItem));
 
                 if (rt.FoundNew)
                 {
                     return true; // this short circuits the step
                 }
 
-                pm.Add(selector.GetProposedItems());
+                pm.Add(selector.GetProposedItems().Select(iri => iri as ILogicItem));
 
                 if (!rt.FoundNew)
                 {
@@ -414,7 +414,7 @@ namespace RandomizerCore.Randomization
             {
                 ItemAddPattern.AcceptedProposed => new[] { lastAccepted, lastProposed },
                 ItemAddPattern.Test => new[] { lastProposed },
-                ItemAddPattern.Individual or _ => lastProposed.Select(i => new[] { i })
+                ItemAddPattern.Individual or _ => lastProposed.Select(i => new[] { i }.AsIReadOnlyList()).Select(irol => irol as IEnumerable<IRandoItem>)
             };
             IEnumerable<IEnumerable<IRandoItem>> ltList = errorSource switch
             {

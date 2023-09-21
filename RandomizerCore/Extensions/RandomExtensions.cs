@@ -261,7 +261,7 @@ namespace RandomizerCore.Extensions
             {
                 if (test(ts[i])) matches.Add(i);
             }
-            return ts[rng.Next(matches)];
+            return ts[rng.Next(matches.AsIReadOnlyList())];
         }
     }
 }

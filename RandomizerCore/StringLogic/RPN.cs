@@ -154,7 +154,7 @@ namespace RandomizerCore.StringLogic
                             {
                                 for (int j = 0; j < andLeft.Count; j++)
                                 {
-                                    HashSet<TermToken> c = new(andRight[i].Count + andLeft[j].Count);
+                                    HashSet<TermToken> c = new(); // bruh
                                     c.UnionWith(andLeft[j]);
                                     c.UnionWith(andRight[i]);
                                     and.Add(c);
